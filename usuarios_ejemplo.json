@@ -1,0 +1,24 @@
+[
+  {
+    "email": "Tuemail@gmail.com",
+     "password": "TuPassword",
+     "dias": [2,3],
+     "recorrido": "Nombre del recorrido exactamente como esta en la app",
+     "horario": "07:45",
+     "parada": "Nombre de la parada exactamente como esta en la app",
+     "pago": "Efectivo"
+  }
+  ,
+  {
+    "email": "Tuemail@gmail.com",
+     "password": "TuPassword",
+     "dias": [2,3],
+     "recorrido": "Nombre del recorrido exactamente como esta en la app",
+     "horario": "18:16",
+     "parada": "Nombre de la parada exactamente como esta en la app",
+     "pago": "Efectivo"
+  }
+  
+]
+
+

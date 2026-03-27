@@ -1,0 +1,33 @@
+# Datos personales
+usuarios.json
+combi.lock
+combi_log.txt
+
+# Dumps de debug
+*.xml
+horario_dump.html
+reservar_dump.html
+webview_calendar.html
+calendar_nav_debug.html
+parada_dump.html
+recorrido_dump.html
+
+# Binarios
+chromedriver-win64/
+chromedriver-win64.zip
+apktool.jar
+*.jar
+*.zip
+
+# Carpetas locales
+APK/
+evidencia/
+Frida/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# VS Code
+.vscode/
