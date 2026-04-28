@@ -210,7 +210,7 @@ def click_day_robust_webview(driver, day, webview_ctx):
                 if by == By.CSS_SELECTOR:
                     # Para CSS buscamos todos y filtramos por texto
                     els = driver.find_elements(by, value)
-                    for el in els:6
+                    for el in els:
                         if el.text.strip() in (str(day), f"{day:02d}"):
                             driver.execute_script("arguments[0].click();", el)
                             print(f"✔ Día {day} clickeado (WEBVIEW CSS picker) text='{el.text}'")
