@@ -1,7 +1,7 @@
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
-
+#HOLAA
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -197,27 +197,35 @@ def click_day_robust_webview(driver, day, webview_ctx):
     try:
         driver.switch_to.context(webview_ctx)
         time.sleep(1)
+
         strategies = [
-            (By.XPATH, f'//td[text()="{day}"]'),
-            (By.XPATH, f'//td[text()="{day:02d}"]'),
-            (By.XPATH, f'//*[text()="{day}"]'),
-            (By.XPATH, f'//*[@class and text()="{day}"]'),
-            (By.CSS_SELECTOR, 'td:not(.is-disabled)'),
+            # Más específicas primero: dentro del picker, solo celdas de día habilitadas
+            (By.CSS_SELECTOR, f'.picker__day:not(.picker__day--disabled):not(.picker__day--outfocus)'),
+            (By.XPATH, f'//div[contains(@class,"picker")]//td[normalize-space(text())="{day}"]'),
+            (By.XPATH, f'//div[contains(@class,"picker")]//*[normalize-space(text())="{day}" and not(contains(@class,"disabled"))]'),
+            (By.XPATH, f'//table//td[normalize-space(text())="{day}" and not(contains(@class,"disabled"))]'),
+            (By.XPATH, f'//table//td[normalize-space(text())="{day:02d}" and not(contains(@class,"disabled"))]'),
         ]
+
         for by, value in strategies:
             try:
                 if by == By.CSS_SELECTOR:
-                    for el in driver.find_elements(by, value):
+                    # Para CSS buscamos todos y filtramos por texto
+                    els = driver.find_elements(by, value)
+                    for el in els:6
                         if el.text.strip() in (str(day), f"{day:02d}"):
-                            el.click()
-                            print(f"✔ Día {day} clickeado (WEBVIEW CSS) text='{el.text}'")
+                            driver.execute_script("arguments[0].click();", el)
+                            print(f"✔ Día {day} clickeado (WEBVIEW CSS picker) text='{el.text}'")
                             return True
                 else:
-                    driver.find_element(by, value).click()
+                    el = driver.find_element(by, value)
+                    driver.execute_script("arguments[0].click();", el)
                     print(f"✔ Día {day} clickeado (WEBVIEW) con: {value}")
                     return True
             except:
                 continue
+
+        # Si todo falló, guardar HTML para debug
         try:
             html = driver.execute_script("return document.documentElement.outerHTML;")
             with open("webview_calendar.html", "w", encoding="utf-8") as f:
@@ -225,6 +233,7 @@ def click_day_robust_webview(driver, day, webview_ctx):
             print("✔ HTML del WebView guardado → webview_calendar.html")
         except Exception as e:
             print(f"No se pudo guardar HTML: {e}")
+
     except Exception as e:
         print(f"Error en WebView: {e}")
     finally:
